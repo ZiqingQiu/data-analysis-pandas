@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 
 from apis.utils import save_print
-from config import histogram_percentile
+from config import histogram_percentile, current_df_name
 
 
 def plot_history_info(df, col):
@@ -35,6 +35,6 @@ def plot_history_info(df, col):
     ax.invert_yaxis()
     for p in ax.patches:
         ax.annotate(str(p.get_width()), (p.get_width()+10, p.get_y()+p.get_height()*0.75))
-    fig.savefig('output/' + col + '_histogram.png')
+    fig.savefig('output/' + col + '_histogram_' + current_df_name + '.png')
     return top_cols
 

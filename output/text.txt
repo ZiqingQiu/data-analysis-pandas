@@ -21,34 +21,34 @@ STOLEN       0.969539
 UNKNOWN      0.017550
 RECOVERED    0.012911
 Name: Status, dtype: float64
+STEP -- replace status
 
 STEP -- print_basic_info
-
 ****column values are:****
-['Bike_Colour' 'Bike_Make' 'Bike_Model' 'Bike_Speed' 'Bike_Type'
- 'Cost_of_Bike' 'Division' 'Hood_ID' 'Lat' 'Location_Type' 'Long'
- 'Occurrence_Day' 'Occurrence_Month' 'Occurrence_Time' 'Occurrence_Year'
- 'Premise_Type' 'Primary_Offence' 'Status']
+['Primary_Offence' 'Occurrence_Year' 'Occurrence_Month' 'Occurrence_Day'
+ 'Occurrence_Time' 'Division' 'Location_Type' 'Premise_Type' 'Bike_Make'
+ 'Bike_Model' 'Bike_Type' 'Bike_Speed' 'Bike_Colour' 'Cost_of_Bike'
+ 'Status' 'Hood_ID' 'Lat' 'Long']
 
 ****column type are:****
-Bike_Colour          object
+Primary_Offence      object
+Occurrence_Year       int64
+Occurrence_Month      int64
+Occurrence_Day        int64
+Occurrence_Time      object
+Division              int64
+Location_Type        object
+Premise_Type         object
 Bike_Make            object
 Bike_Model           object
-Bike_Speed            int64
 Bike_Type            object
+Bike_Speed            int64
+Bike_Colour          object
 Cost_of_Bike        float64
-Division              int64
+Status                int64
 Hood_ID               int64
 Lat                 float64
-Location_Type        object
 Long                float64
-Occurrence_Day        int64
-Occurrence_Month      int64
-Occurrence_Time      object
-Occurrence_Year       int64
-Premise_Type         object
-Primary_Offence      object
-Status               object
 dtype: object
 
 ****column shape df_stolen:****
@@ -56,3 +56,17 @@ dtype: object
 
 ****column shape df_recover:****
 (231, 18)
+
+************************
+WHOLE df returned...
+************************
+
+Analysis what -- bike
+STEP -- check_missing
+Bike_Make          0
+Bike_Model      6628
+Bike_Type          0
+Bike_Speed         0
+Bike_Colour     1418
+Cost_of_Bike    1114
+dtype: int64

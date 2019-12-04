@@ -3,6 +3,11 @@ import os
 import shutil
 from os.path import join
 
+import pandas as pd
+from sklearn import preprocessing
+
+from config import current_df_name
+
 project_root = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -36,6 +41,29 @@ def get_csv_full_path():
 
 
 # check missing
-def check_missing(df):
-    save_print("check_missing")
-    save_print(len(df) - df.count())
+def check_missing(df, cols):
+    save_print("STEP -- check_missing")
+    save_print(len(df) - df[cols].count())
+
+
+# standardize data
+def standardize_data(df):
+    save_print("STEP -- standardize_data")
+    names = df.columns
+    scaler = preprocessing.StandardScaler()
+    scaled_df = scaler.fit_transform(df)
+    return pd.DataFrame(scaled_df, columns=names)
+
+
+# get configured df
+def get_configure_df(df_whole, df_stolen, df_recover):
+    switcher = {
+        "STOLEN": df_stolen,
+        "RECOVERED": df_recover,
+        "WHOLE": df_whole
+    }
+    save_print("\n************************\n"
+               + current_df_name
+               + " df returned...\n************************")
+    return switcher.get(current_df_name, "Invalid df configure!!!!!!")
+

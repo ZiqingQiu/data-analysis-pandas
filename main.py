@@ -1,10 +1,16 @@
-from apis.data_explore import data_explore
-from apis.data_modeling import data_modeling
+from apis.explore_data import data_explore
+from apis.analysis_what import analysis_what
+from apis.utils import get_configure_df
 
 
 def main():
-    df = data_explore()
-    # data_modeling(df)
+    # explore data
+    df_whole, df_stolen, df_recover = data_explore()
+    # set cur df
+    df = get_configure_df(df_whole, df_stolen, df_recover)
+
+    # what -- bike
+    analysis_what(df)
 
 
 if __name__ == '__main__':

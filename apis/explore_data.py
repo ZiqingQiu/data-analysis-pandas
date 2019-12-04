@@ -2,13 +2,15 @@
 """
 Created on Tue Nov 19 12:20:10 2019
 Data Exploration
-    To screen columns whether duplicate or useless
+    To screen columns/rows whether duplicate or useless, if yes delete
+    Convert label Status to 0 and 1
     Print basic info
 @author: group1
 """
 
 import pandas as pd
 from apis.utils import save_print, del_output, get_csv_full_path
+from config import status_stolen, status_recover
 
 
 # print basic
@@ -19,11 +21,11 @@ def print_basic_info(df):
     save_print('\n****column type are:****')
     save_print(df.dtypes)
     # split into two df
-    cond_stolen = df['Status'].str.upper() == "STOLEN"
+    cond_stolen = df['Status'] == status_stolen
     df_stolen = df[cond_stolen]
     save_print('\n****column shape df_stolen:****')
     save_print(df_stolen.shape)
-    cond_recover = df['Status'].str.upper() == "RECOVERED"
+    cond_recover = df['Status'] == status_recover
     df_recover = df[cond_recover]
     save_print('\n****column shape df_recover:****')
     save_print(df_recover.shape)
@@ -31,6 +33,7 @@ def print_basic_info(df):
     # save_print(df.describe())
     # save_print('\n****top 5 rows are:****')
     # save_print(df.head(5))
+    return df_stolen, df_recover
 
 
 # find duplicate columns or useless id column
@@ -89,7 +92,8 @@ def screen_cols(df):
     # print all the removed columns
     save_print('\n***The columns will be removed are: ***')
     save_print(exclude_cols)
-    return df[df.columns.difference(exclude_cols)]
+    # drop columns
+    df.drop(exclude_cols, axis=1, inplace=True)
 
 
 # find not useful rows
@@ -98,7 +102,16 @@ def screen_rows(df):
     save_print(df['Status'].value_counts(normalize=True))
     row_filter = df["Status"].str.upper() == "UNKNOWN"
     index_names = df[row_filter].index
-    return df.drop(index_names, inplace=True)
+    # drop rows
+    df.drop(index_names, axis=0, inplace=True)
+
+
+# replace label
+def replace_status(df):
+    save_print("STEP -- replace status")
+    # replace STOLEN as 1 and RECOVERED as 0
+    df.loc[df['Status'] == 'STOLEN', 'Status'] = status_stolen
+    df.loc[df['Status'] == 'RECOVERED', 'Status'] = status_recover
 
 
 def data_explore():
@@ -110,10 +123,12 @@ def data_explore():
     full_path = get_csv_full_path()
     df = pd.read_csv(full_path, sep=',')
     # col screen
-    df = screen_cols(df)
+    screen_cols(df)
     # row screen
     screen_rows(df)
+    # replace status value
+    replace_status(df)
     # print basic info to file
-    print_basic_info(df)
+    df_stolen, df_recover = print_basic_info(df)
     # return final df
-    return df
+    return df, df_stolen, df_recover
