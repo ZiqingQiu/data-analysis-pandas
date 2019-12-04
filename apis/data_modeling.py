@@ -6,14 +6,9 @@ Created on Tue Nov 19 12:20:10 2019
 """
 # 1 Data Exploration
 import pandas as pd
-import numpy as np
-from sklearn.feature_selection import RFE
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from utils import save_print, get_history_info
+from apis.utils import save_print
+from apis.plot_diagram import plot_history_info
 from sklearn import preprocessing
-from sklearn import metrics
-from sklearn.metrics import confusion_matrix, f1_score, recall_score
 
 
 def convert_time(df):
@@ -65,12 +60,12 @@ def convert_value(df):
     # -- trim from right
     df['Bike_Make'].str.rstrip(' \n\t')
     # -- convert
-    get_history_info(df, 'Bike_Make')
+    plot_history_info(df, 'Bike_Make')
     # col Bike_Colour
     # -- trim from right spaces
     df['Bike_Colour'].str.rstrip(' \n\t')
     # -- convert
-    get_history_info(df, 'Bike_Colour')
+    plot_history_info(df, 'Bike_Colour')
 
 
 def data_modeling(df):

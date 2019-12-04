@@ -6,8 +6,7 @@ Created on Tue Nov 19 12:20:10 2019
 """
 # 1 Data Exploration
 import pandas as pd
-import numpy as np
-from utils import save_print, del_output, get_csv_full_path
+from apis.utils import save_print, del_output, get_csv_full_path, check_missing
 
 
 # print basic
@@ -27,7 +26,7 @@ def print_basic_info(df):
 
 # find duplicate columns or useless id column
 def screen_cols(df):
-    save_print("\nSTEP -- screen_cols")
+    save_print("STEP -- screen_cols")
     exclude_cols = ['Occurrence_Date']
     # check X -- Long is identical
     bool_x_long = df['X'].round(4).equals(df['Long'].round(4))
@@ -71,20 +70,6 @@ def screen_cols(df):
         save_print("Therefore remove col City")
         exclude_cols.append('City')
 
-    # check Bike_Model unique value
-    bool_is_too_many_unique = df['Bike_Model'].nunique() >= 30
-    save_print("Is col Bike_Model impossible to get dummy? " + str(bool_is_too_many_unique))
-    if bool_is_too_many_unique:
-        save_print("Therefore remove col Bike_Model")
-        exclude_cols.append('Bike_Model')
-
-    # check Location_Type unique value
-    bool_is_too_many_unique = df['Location_Type'].nunique() >= 20
-    save_print("Is col Location_Type impossible to get dummy? " + str(bool_is_too_many_unique))
-    if bool_is_too_many_unique:
-        save_print("Therefore remove col Location_Type")
-        exclude_cols.append('Location_Type')
-
     # check Neighbourhood is one to one with Hood_ID
     bool_is_121 = len(df.groupby('Neighbourhood')['Hood_ID'].nunique().drop_duplicates()) == 1
     save_print('Is col Neighbourhood one to one with Hood_ID? ' + str(bool_is_121))
@@ -98,48 +83,19 @@ def screen_cols(df):
     return df[df.columns.difference(exclude_cols)]
 
 
-# print statistic
-def print_statistic(df):
-    save_print("\nSTEP -- print_statistic")
-    save_print('\n****correlation are:****')
-    save_print(df.corr())
-
-
-# check missing
-def check_missing(df):
-    save_print("\nSTEP -- check_missing")
-    save_print(len(df) - df.count())
-
-
 def data_explore():
     # prepare env
     del_output()
     pd.set_option('display.max_columns', 26)
 
     # 1a - Load and describe data elements (columns) provide descriptions & types with values of each element
-    save_print('****1a output:****')
     # read from csv
     full_path = get_csv_full_path()
-    df_1a = pd.read_csv(full_path, sep=',')
+    df = pd.read_csv(full_path, sep=',')
     # col screen
-    df_1a = screen_cols(df_1a)
+    df = screen_cols(df)
     # print basic info to file
-    print_basic_info(df_1a)
-
-    # 1b - Statistical assessments including means, averages, correlations
-    save_print('****1b output:****')
-    df_1b = df_1a
-    print_statistic(df_1b)
-
-    # 1c - Missing data evaluations
-    save_print('****1c output:****')
-    df_1c = df_1b
-    check_missing(df_1c)
-
-    # 1d - Graphs and visualizations
-    save_print('****1d output:****')
-    df_1d = df_1c
-
+    print_basic_info(df)
     # return final df
-    return df_1d
+    return df
 

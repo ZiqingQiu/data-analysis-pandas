@@ -1,5 +1,3 @@
-****1a output:****
-
 STEP -- screen_cols
 Is col X and col Long identical? True
 Therefore remove col X
@@ -13,26 +11,22 @@ Is col ObjectId an id col? True
 Therefore remove col ObjectId
 Is col City only one value Toronto? True
 Therefore remove col City
-Is col Bike_Model impossible to get dummy? True
-Therefore remove col Bike_Model
-Is col Location_Type impossible to get dummy? True
-Therefore remove col Location_Type
 Is col Neighbourhood one to one with Hood_ID? True
 Therefore remove col Neighbourhood
 
 ***The columns will be removed are: ***
-['Occurrence_Date', 'X', 'Y', 'Index_', 'event_unique_id', 'ObjectId', 'City', 'Bike_Model', 'Location_Type', 'Neighbourhood']
+['Occurrence_Date', 'X', 'Y', 'Index_', 'event_unique_id', 'ObjectId', 'City', 'Neighbourhood']
 
 STEP -- print_basic_info
 
 ****column values are:****
-['Bike_Colour' 'Bike_Make' 'Bike_Speed' 'Bike_Type' 'Cost_of_Bike'
- 'Division' 'Hood_ID' 'Lat' 'Long' 'Occurrence_Day' 'Occurrence_Month'
- 'Occurrence_Time' 'Occurrence_Year' 'Premise_Type' 'Primary_Offence'
- 'Status']
+['Bike_Colour' 'Bike_Make' 'Bike_Model' 'Bike_Speed' 'Bike_Type'
+ 'Cost_of_Bike' 'Division' 'Hood_ID' 'Lat' 'Location_Type' 'Long'
+ 'Occurrence_Day' 'Occurrence_Month' 'Occurrence_Time' 'Occurrence_Year'
+ 'Premise_Type' 'Primary_Offence' 'Status']
 
 ****column shape are:****
-(17892, 16)
+(17892, 18)
 
 ****column describe are:****
          Bike_Speed  Cost_of_Bike      Division       Hood_ID           Lat  \
@@ -58,12 +52,14 @@ max      -79.123100       31.000000         12.000000      2018.000000
 ****column type are:****
 Bike_Colour          object
 Bike_Make            object
+Bike_Model           object
 Bike_Speed            int64
 Bike_Type            object
 Cost_of_Bike        float64
 Division              int64
 Hood_ID               int64
 Lat                 float64
+Location_Type        object
 Long                float64
 Occurrence_Day        int64
 Occurrence_Month      int64
@@ -73,126 +69,3 @@ Premise_Type         object
 Primary_Offence      object
 Status               object
 dtype: object
-
-****top 5 rows are:****
-  Bike_Colour        Bike_Make  Bike_Speed Bike_Type  Cost_of_Bike  Division  \
-0      BLK     OT                       24        OT         800.0        51   
-1      ONG     UK                       32        EL        1200.0        51   
-2      BLK     OT                       21        OT         900.0        51   
-3      GRY     GI                       24        OT         400.0        55   
-4      BLK     KO                       21        MT         700.0        51   
-
-   Hood_ID        Lat       Long  Occurrence_Day  Occurrence_Month  \
-0       73  43.652412 -79.367424              13                 6   
-1       72  43.659527 -79.357460              13                 6   
-2       75  43.661373 -79.383110               2                 5   
-3       63  43.678585 -79.290672              13                 6   
-4       75  43.656330 -79.380928              13                 6   
-
-  Occurrence_Time  Occurrence_Year Premise_Type Primary_Offence  Status  
-0           11:30             2014      Outside     THEFT UNDER  STOLEN  
-1           11:45             2014      Outside     THEFT UNDER  STOLEN  
-2           12:45             2014      Outside     THEFT UNDER  STOLEN  
-3           16:30             2014        House     THEFT UNDER  STOLEN  
-4           18:15             2014      Outside     THEFT UNDER  STOLEN  
-****1b output:****
-
-STEP -- print_statistic
-
-****correlation are:****
-                  Bike_Speed  Cost_of_Bike  Division   Hood_ID       Lat  \
-Bike_Speed          1.000000      0.035856  0.033175 -0.033956  0.012205   
-Cost_of_Bike        0.035856      1.000000  0.019880 -0.012680 -0.043811   
-Division            0.033175      0.019880  1.000000  0.009702  0.086450   
-Hood_ID            -0.033956     -0.012680  0.009702  1.000000  0.052367   
-Lat                 0.012205     -0.043811  0.086450  0.052367  1.000000   
-Long               -0.011757      0.001913  0.559694  0.515262  0.255836   
-Occurrence_Day      0.006617      0.007942 -0.008864  0.004443 -0.017902   
-Occurrence_Month    0.020455     -0.014398  0.013616 -0.013010 -0.011916   
-Occurrence_Year    -0.000672      0.023730 -0.017896 -0.013007 -0.060856   
-
-                      Long  Occurrence_Day  Occurrence_Month  Occurrence_Year  
-Bike_Speed       -0.011757        0.006617          0.020455        -0.000672  
-Cost_of_Bike      0.001913        0.007942         -0.014398         0.023730  
-Division          0.559694       -0.008864          0.013616        -0.017896  
-Hood_ID           0.515262        0.004443         -0.013010        -0.013007  
-Lat               0.255836       -0.017902         -0.011916        -0.060856  
-Long              1.000000       -0.010295          0.008019        -0.009852  
-Occurrence_Day   -0.010295        1.000000         -0.076445         0.014854  
-Occurrence_Month  0.008019       -0.076445          1.000000        -0.010174  
-Occurrence_Year  -0.009852        0.014854         -0.010174         1.000000  
-****1c output:****
-
-STEP -- check_missing
-Bike_Colour         1453
-Bike_Make              0
-Bike_Speed             0
-Bike_Type              0
-Cost_of_Bike        1311
-Division               0
-Hood_ID                0
-Lat                    0
-Long                   0
-Occurrence_Day         0
-Occurrence_Month       0
-Occurrence_Time        0
-Occurrence_Year        0
-Premise_Type           0
-Primary_Offence        0
-Status                 0
-dtype: int64
-****1d output:****
-****2a output:****
-
-STEP -- convert_value
-
-STEP -- convert_time
-0     690
-1     705
-2     765
-3     990
-4    1095
-Name: Occurrence_Time, dtype: int64
-Top 23/646 [Bike_Make] value that contributes 80.0% data
-OT                 3395
-UK                 1446
-OTHER              1212
-GI                 1140
-TR                  926
-NO                  665
-GIANT               447
-UNKNOWN MAKE        427
-CC                  422
-TREK                394
-SPECIALIZED         381
-SC                  380
-CA                  358
-RA                  349
-SU                  328
-KO                  311
-GT                  298
-CCM                 284
-NORCO               251
-SUPERCYCLE          216
-EMMO                185
-UNKNOWN             178
-FJ                  176
-Name: Bike_Make, dtype: int64
-Top 16/217 [Bike_Colour] value that contributes 80.0% data
-BLK       5022
-BLU       1650
-GRY       1483
-WHI       1442
-RED       1282
-SIL        851
-GRN        479
-PLE        333
-ONG        331
-DBL        277
-YEL        256
-LBL        227
-LGR        181
-DGR        164
-BLKRED     164
-OTH        147
-Name: Bike_Colour, dtype: int64
