@@ -1,25 +1,34 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 19 12:20:10 2019
-
+Data Exploration
+    To screen columns whether duplicate or useless
+    Print basic info
 @author: group1
 """
-# 1 Data Exploration
+
 import pandas as pd
-from apis.utils import save_print, del_output, get_csv_full_path, check_missing
+from apis.utils import save_print, del_output, get_csv_full_path
 
 
 # print basic
 def print_basic_info(df):
     save_print("\nSTEP -- print_basic_info")
-    save_print('\n****column values are:****')
+    save_print('****column values are:****')
     save_print(df.columns.values)
-    save_print('\n****column shape are:****')
-    save_print(df.shape)
-    save_print('\n****column describe are:****')
-    save_print(df.describe())
     save_print('\n****column type are:****')
     save_print(df.dtypes)
+    # split into two df
+    cond_stolen = df['Status'].str.upper() == "STOLEN"
+    df_stolen = df[cond_stolen]
+    save_print('\n****column shape df_stolen:****')
+    save_print(df_stolen.shape)
+    cond_recover = df['Status'].str.upper() == "RECOVERED"
+    df_recover = df[cond_recover]
+    save_print('\n****column shape df_recover:****')
+    save_print(df_recover.shape)
+    # save_print('\n****column describe are:****')
+    # save_print(df.describe())
     # save_print('\n****top 5 rows are:****')
     # save_print(df.head(5))
 
@@ -83,19 +92,28 @@ def screen_cols(df):
     return df[df.columns.difference(exclude_cols)]
 
 
+# find not useful rows
+def screen_rows(df):
+    save_print("STEP -- screen_rows")
+    save_print(df['Status'].value_counts(normalize=True))
+    row_filter = df["Status"].str.upper() == "UNKNOWN"
+    index_names = df[row_filter].index
+    return df.drop(index_names, inplace=True)
+
+
 def data_explore():
     # prepare env
     del_output()
     pd.set_option('display.max_columns', 26)
 
-    # 1a - Load and describe data elements (columns) provide descriptions & types with values of each element
     # read from csv
     full_path = get_csv_full_path()
     df = pd.read_csv(full_path, sep=',')
     # col screen
     df = screen_cols(df)
+    # row screen
+    screen_rows(df)
     # print basic info to file
     print_basic_info(df)
     # return final df
     return df
-
