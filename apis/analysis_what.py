@@ -8,8 +8,8 @@ Created on Tue Nov 19 12:20:10 2019
 import pandas as pd
 from apis.utils import save_print, check_missing, check_unique, group_by_statistics, group_by_most_frequent
 from apis.plot_diagram import plot_history_info, plot_box
-from config import col_what
-import numpy as np
+from config import col_what, current_df_name
+from matplotlib import pyplot as plt
 
 
 def convert_time(df):
@@ -34,7 +34,6 @@ def fill_missing_bike_color(df):
     s = df['Bike_Type'].map(tmp_df.set_index('Bike_Type')['Bike_Colour'])
     df.loc[df['Bike_Colour'].isnull(), 'Bike_Colour'] = s
     save_print("\nSTEP -- fill_missing_bike_color")
-
 
 
 # get dummies for non-numeric col
@@ -65,6 +64,23 @@ def convert_value(df):
     plot_history_info(df, 'Bike_Colour')
 
 
+def cal_corr_cost_speed(df):
+    save_print('****\nSTEP -- cal_corr_cost_speed***')
+    # fig, axs = plt.subplots(nrows=7, ncols=2, figsize=(6, 6), facecolor='w', edgecolor='k')
+    # fig.subplots_adjust(hspace=.5, wspace=.001)
+
+    unique_types = df['Bike_Type'].unique()
+    # for u_type, ax in zip(unique_types, axs.flat):
+    for u_type in unique_types:
+        filter_cond = df["Bike_Type"] == u_type
+        tmp_df = df.where(filter_cond)
+        corr = tmp_df['Bike_Speed'].corr(tmp_df['Cost_of_Bike'])
+        save_print(u_type + " " + str(corr))
+
+        # ax.scatter(tmp_df['Bike_Speed'], tmp_df['Cost_of_Bike'], label=u_type)
+    # fig.savefig('output/' + 'Speed_Cost_Corr_' + current_df_name + '.png')
+
+
 def analysis_what(df):
     save_print("\nAnalysis what -- bike")
     # check missing
@@ -78,10 +94,17 @@ def analysis_what(df):
     plot_history_info(df, 'Bike_Type')
     # [Bike_Speed]
     plot_box(df, 'Bike_Speed')
+    save_print('****Bike_Speed group by Bike_Type describe:****')
+    save_print(df.groupby(['Bike_Type'])['Bike_Speed'].describe())
     # [Bike_Colour]
     fill_missing_bike_color(df)
+    plot_history_info(df, 'Bike_Colour')
     # [Cost_of_Bike]
     fill_missing_bike_cost(df)
+    # [Bike_Speed, Cost_of_Bike]
+    cal_corr_cost_speed(df)
+
+    # recheck missing
     check_missing(df, col_what)
 
     # grp_by_cols = ['Bike_Type', 'Bike_Colour']

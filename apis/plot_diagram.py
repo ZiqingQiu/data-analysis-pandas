@@ -1,7 +1,8 @@
 from matplotlib import pyplot as plt
-
 from apis.utils import save_print
 from config import histogram_percentile, current_df_name
+import pandas as pd
+import numpy as np
 
 
 def plot_history_info(df, col):
@@ -48,3 +49,12 @@ def plot_box(df, col):
     ax1.boxplot(df[col], flierprops=red_diamond)
     fig.savefig('output/' + col + '_box_' + current_df_name + '.png')
 
+
+def plot_bar_value_counts(s, title):
+    fig, ax = plt.subplots()
+    ax.bar(s.index.tolist(), s.values.tolist(), align='center')
+    ax.set_title(title + '_' + current_df_name)
+    # ax.xlabel(x_col)
+    # ax.ylabel(y_col)
+    ax.xaxis.set_ticks(np.arange(min(s.index.tolist()), max(s.index.tolist())+1, 1.0))
+    fig.savefig('output/' + title + 'value_bar' + '_' + current_df_name + '.png')

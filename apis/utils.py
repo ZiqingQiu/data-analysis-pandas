@@ -5,7 +5,6 @@ from os.path import join
 
 import pandas as pd
 from sklearn import preprocessing
-
 from config import current_df_name
 
 project_root = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
