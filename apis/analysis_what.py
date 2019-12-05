@@ -6,9 +6,10 @@ Created on Tue Nov 19 12:20:10 2019
 """
 # 1 Data Exploration
 import pandas as pd
-from apis.utils import save_print, check_missing
-from apis.plot_diagram import plot_history_info
+from apis.utils import save_print, check_missing, check_unique, group_by_statistics, group_by_most_frequent
+from apis.plot_diagram import plot_history_info, plot_box
 from config import col_what
+import numpy as np
 
 
 def convert_time(df):
@@ -17,12 +18,23 @@ def convert_time(df):
     save_print(df['Occurrence_Time'].head(5))
 
 
-def fill_missing(df):
-    save_print("\nSTEP -- fill_missing")
-    save_print(df.groupby('Bike_Type').mean().Cost_of_Bike)
+def fill_missing_bike_cost(df):
+    save_print("\nSTEP -- fill_missing_bike_cost")
+    median = df.groupby('Bike_Type').median().Cost_of_Bike
+    save_print(median)
+    df['Cost_of_Bike'].fillna(
+        df.groupby('Bike_Type')['Cost_of_Bike'].transform('median'), inplace=True)
 
-    # fill Cost_of_Bike based on the mean of Bike_Type
-    df['Cost_of_Bike'] = df['Cost_of_Bike'].fillna(df.groupby('Bike_Type')['Cost_of_Bike'].transform('mean').round(2))
+
+def fill_missing_bike_color(df):
+    save_print("\nSTEP -- fill_missing_bike_color")
+    grp_by_cols = ['Bike_Type']
+    cal_col = 'Bike_Colour'
+    tmp_df = group_by_most_frequent(df, grp_by_cols, cal_col)
+    s = df['Bike_Type'].map(tmp_df.set_index('Bike_Type')['Bike_Colour'])
+    df.loc[df['Bike_Colour'].isnull(), 'Bike_Colour'] = s
+    save_print("\nSTEP -- fill_missing_bike_color")
+
 
 
 # get dummies for non-numeric col
@@ -57,6 +69,25 @@ def analysis_what(df):
     save_print("\nAnalysis what -- bike")
     # check missing
     check_missing(df, col_what)
-    # fill_missing(df)
+    # check unique
+    check_unique(df, col_what)
+
+    # [Bike_Make]
+    plot_history_info(df, 'Bike_Make')
+    # [Bike_Type]
+    plot_history_info(df, 'Bike_Type')
+    # [Bike_Speed]
+    plot_box(df, 'Bike_Speed')
+    # [Bike_Colour]
+    fill_missing_bike_color(df)
+    # [Cost_of_Bike]
+    fill_missing_bike_cost(df)
+    check_missing(df, col_what)
+
+    # grp_by_cols = ['Bike_Type', 'Bike_Colour']
+    # cal_col = 'Bike_Make'
+    # group_by_statistics(df, grp_by_cols, cal_col)
+
+
 
 

@@ -42,8 +42,12 @@ def get_csv_full_path():
 
 # check missing
 def check_missing(df, cols):
-    save_print("STEP -- check_missing")
-    save_print(len(df) - df[cols].count())
+    save_print("\nSTEP -- check_missing")
+    # save_print(len(df) - df[cols].count())
+    percent = df[cols].isnull().sum() * 100 / len(df)
+    tmp_df = pd.DataFrame({'missing_value': df.isnull().sum(),
+                           'percentage': percent}, index=cols)
+    save_print(tmp_df)
 
 
 # standardize data
@@ -67,3 +71,30 @@ def get_configure_df(df_whole, df_stolen, df_recover):
                + " df returned...\n************************")
     return switcher.get(current_df_name, "Invalid df configure!!!!!!")
 
+
+# check unique
+def check_unique(df, cols):
+    save_print("\nSTEP -- check_unique")
+    percent = df[cols].nunique() * 100 / len(df)
+    tmp_df = pd.DataFrame({'unique_value': df[cols].nunique(),
+                           'percentage': percent}, index=cols)
+    save_print(tmp_df)
+
+
+# group by value and percentage
+def group_by_statistics(df, grp_by_cols, count_col):
+    save_print("\nSTEP -- group_by_statistics")
+    tmp_df = df.groupby(grp_by_cols)[count_col] \
+        .count() \
+        .reset_index(name='count') \
+        .sort_values(['count'], ascending=False) \
+        .head(100)
+    save_print(tmp_df)
+
+
+# group by and display the most frequent
+def group_by_most_frequent(df, grp_by_cols, count_col):
+    save_print("\nSTEP -- group_by_most_frequent")
+    tmp_df = df.groupby(grp_by_cols)[count_col].apply(lambda x: x.value_counts().index[0]).reset_index()
+    save_print(tmp_df)
+    return tmp_df

@@ -62,11 +62,69 @@ WHOLE df returned...
 ************************
 
 Analysis what -- bike
+
 STEP -- check_missing
-Bike_Make          0
-Bike_Model      6628
-Bike_Type          0
-Bike_Speed         0
-Bike_Colour     1418
-Cost_of_Bike    1114
-dtype: int64
+              missing_value  percentage
+Bike_Make                 0    0.000000
+Bike_Model             6628   37.706224
+Bike_Type                 0    0.000000
+Bike_Speed                0    0.000000
+Bike_Colour            1418    8.066902
+Cost_of_Bike           1114    6.337467
+
+STEP -- check_unique
+              unique_value  percentage
+Bike_Make              630    3.584025
+Bike_Model            5918   33.667084
+Bike_Type               13    0.073956
+Bike_Speed              60    0.341336
+Bike_Colour            212    1.206053
+Cost_of_Bike          1240    7.054272
+Top 23/630 [Bike_Make] value that contributes 80.0% WHOLE data
+OT                 3385
+UK                 1438
+OTHER              1169
+GI                 1138
+TR                  923
+NO                  664
+GIANT               438
+CC                  420
+UNKNOWN MAKE        415
+SC                  380
+TREK                375
+SPECIALIZED         373
+CA                  358
+RA                  347
+SU                  325
+KO                  311
+GT                  295
+CCM                 259
+NORCO               243
+SUPERCYCLE          196
+EMMO                181
+FJ                  176
+UNKNOWN             176
+Name: Bike_Make, dtype: int64
+Top 3/13 [Bike_Type] value that contributes 80.0% WHOLE data
+MT    5642
+RG    4506
+OT    2964
+Name: Bike_Type, dtype: int64
+
+STEP -- fill_missing_bike_color
+
+STEP -- group_by_most_frequent
+   Bike_Type Bike_Colour
+0         BM      BLK   
+1         EL      BLK   
+2         FO      BLK   
+3         MT      BLK   
+4         OT      BLK   
+5         RC      BLK   
+6         RE      ONG   
+7         RG      BLK   
+8         SC      BLK   
+9         TA      BLU   
+10        TO      BLK   
+11        TR      BLU   
+12        UN      GRY   
