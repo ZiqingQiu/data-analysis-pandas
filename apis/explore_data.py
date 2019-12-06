@@ -71,9 +71,9 @@ def screen_cols(df):
     # check col ObjectId is just id
     bool_is_obj_id = df['ObjectId'].nunique() == len(df)
     save_print("Is col ObjectId an id col? " + str(bool_is_obj_id))
-    if bool_is_obj_id:
-        save_print("Therefore remove col ObjectId")
-        exclude_cols.append('ObjectId')
+    # if bool_is_obj_id:
+    #     save_print("Therefore remove col ObjectId")
+    #     exclude_cols.append('ObjectId')
 
     # check City is all Toronto
     bool_is_city_all_toronto = df['City'].nunique() == 1

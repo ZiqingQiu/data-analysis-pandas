@@ -1,4 +1,5 @@
 from apis.analysis_when import analysis_when
+from apis.analysis_where import analysis_where
 from apis.explore_data import data_explore
 from apis.analysis_what import analysis_what
 from apis.utils import get_configure_df
@@ -15,6 +16,9 @@ def main():
 
     # when -- time
     analysis_when(df)
+
+    # where -- location
+    analysis_where(df)
 
 
 if __name__ == '__main__':

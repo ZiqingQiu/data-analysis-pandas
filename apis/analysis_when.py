@@ -4,7 +4,7 @@ from config import col_when
 
 
 def analysis_when(df):
-    save_print("\nanalysis_when what -- bike")
+    save_print("\nAnalysis when -- time")
     # check missing
     check_missing(df, col_when)
     # check unique
@@ -16,9 +16,9 @@ def analysis_when(df):
 
     # [Occurrence_Month]
     month_theft = df['Occurrence_Month'].value_counts()
-    plot_bar_value_counts(month_theft, 'Month_Status')
+    plot_bar_value_counts(month_theft, 'Month_Status', 1.0)
 
     # [Occurrence_Day]
     day_theft = df['Occurrence_Day'].value_counts()
-    plot_bar_value_counts(day_theft, 'Daily_Status')
+    plot_bar_value_counts(day_theft, 'Daily_Status', 2.0)
 

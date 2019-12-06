@@ -8,14 +8,13 @@ Therefore remove col Index
 Is col event_unique_id an id col? True
 Therefore remove col event_unique_id
 Is col ObjectId an id col? True
-Therefore remove col ObjectId
 Is col City only one value Toronto? True
 Therefore remove col City
 Is col Neighbourhood one to one with Hood_ID? True
 Therefore remove col Neighbourhood
 
 ***The columns will be removed are: ***
-['Occurrence_Date', 'X', 'Y', 'Index_', 'event_unique_id', 'ObjectId', 'City', 'Neighbourhood']
+['Occurrence_Date', 'X', 'Y', 'Index_', 'event_unique_id', 'City', 'Neighbourhood']
 STEP -- screen_rows
 STOLEN       0.969539
 UNKNOWN      0.017550
@@ -28,7 +27,7 @@ STEP -- print_basic_info
 ['Primary_Offence' 'Occurrence_Year' 'Occurrence_Month' 'Occurrence_Day'
  'Occurrence_Time' 'Division' 'Location_Type' 'Premise_Type' 'Bike_Make'
  'Bike_Model' 'Bike_Type' 'Bike_Speed' 'Bike_Colour' 'Cost_of_Bike'
- 'Status' 'Hood_ID' 'Lat' 'Long']
+ 'Status' 'Hood_ID' 'Lat' 'Long' 'ObjectId']
 
 ****column type are:****
 Primary_Offence      object
@@ -49,16 +48,17 @@ Status                int64
 Hood_ID               int64
 Lat                 float64
 Long                float64
+ObjectId              int64
 dtype: object
 
 ****column shape df_stolen:****
-(17347, 18)
+(17347, 19)
 
 ****column shape df_recover:****
-(231, 18)
+(231, 19)
 
 ************************
-RECOVERED df returned...
+STOLEN df returned...
 ************************
 
 Analysis what -- bike
@@ -66,127 +66,139 @@ Analysis what -- bike
 STEP -- check_missing
               missing_value  percentage
 Bike_Make                 0    0.000000
-Bike_Model               76   32.900433
+Bike_Model             6552   37.770220
 Bike_Type                 0    0.000000
 Bike_Speed                0    0.000000
-Bike_Colour              31   13.419913
-Cost_of_Bike             80   34.632035
+Bike_Colour            1387    7.995619
+Cost_of_Bike           1034    5.960685
 
 STEP -- check_unique
               unique_value  percentage
-Bike_Make               69   29.870130
-Bike_Model             144   62.337662
-Bike_Type                9    3.896104
-Bike_Speed              26   11.255411
-Bike_Colour             40   17.316017
-Cost_of_Bike            58   25.108225
-Top 28/69 [Bike_Make] value that contributes 80.0% RECOVERED data
-OT                    30
-OTHER                 25
-GI                    11
-SPECIALIZED           10
-TREK                   9
-NORCO                  8
-GIANT                  7
-RA                     6
-UK                     6
-CCM                    6
-SCHWINN                6
-TR                     5
-NO                     5
-RALEIGH                5
-SUPERCYCLE             4
-NEXT                   4
-FUJI                   4
-ROCKY MOUNTAIN         3
-CANNONDALE             3
-MIELE                  3
-KHS                    3
-JAMIS                  3
-HUFFY                  3
-EMMO                   3
-CA                     3
-KONA\r\n               3
-MASI                   3
-EBIKE                  2
+Bike_Make              620    3.574105
+Bike_Model            5848   33.711881
+Bike_Type               13    0.074941
+Bike_Speed              60    0.345881
+Bike_Colour            207    1.193290
+Cost_of_Bike          1231    7.096328
+Top 23/620 [Bike_Make] value that contributes 80.0% STOLEN data
+OT                 3355
+UK                 1432
+OTHER              1144
+GI                 1127
+TR                  918
+NO                  659
+GIANT               431
+CC                  419
+UNKNOWN MAKE        413
+SC                  380
+TREK                366
+SPECIALIZED         363
+CA                  355
+RA                  341
+SU                  325
+KO                  310
+GT                  295
+CCM                 253
+NORCO               235
+SUPERCYCLE          192
+EMMO                178
+FJ                  176
+UNKNOWN             174
 Name: Bike_Make, dtype: int64
-Top 3/9 [Bike_Type] value that contributes 80.0% RECOVERED data
-MT    77
-RG    48
-RC    35
+Top 3/13 [Bike_Type] value that contributes 80.0% STOLEN data
+MT    5565
+RG    4458
+OT    2933
 Name: Bike_Type, dtype: int64
 ****Bike_Speed group by Bike_Type describe:****
-           count       mean        std  min   25%   50%   75%   max
-Bike_Type                                                          
-BM           7.0   3.428571   4.276180  0.0   1.0   1.0   4.5  12.0
-EL          13.0  12.230769  11.847319  1.0   1.0  10.0  20.0  35.0
-FO           1.0   1.000000        NaN  1.0   1.0   1.0   1.0   1.0
-MT          77.0  21.753247  17.028734  0.0  18.0  21.0  22.0  99.0
-OT          31.0  18.290323  23.716652  0.0   1.0  20.0  22.5  99.0
-RC          35.0  15.085714  17.619126  0.0   1.0  12.0  21.0  99.0
-RG          48.0  16.770833  15.874829  0.0   1.0  20.5  24.0  99.0
-SC           5.0  10.600000  22.040871  0.0   0.0   1.0   2.0  50.0
-TO          14.0  11.928571   8.306293  0.0   8.0  11.0  17.5  27.0
+            count       mean        std  min   25%   50%    75%   max
+Bike_Type                                                            
+BM          258.0   4.802326   7.704897  0.0   1.0   1.0   5.75  50.0
+EL          908.0  11.625551  15.732209  0.0   1.0   1.0  30.00  99.0
+FO          131.0   7.282443   7.582647  0.0   3.0   6.0   7.00  50.0
+MT         5565.0  17.183827   8.701402  0.0  10.0  21.0  21.00  99.0
+OT         2933.0  11.724173  10.253404  0.0   1.0  10.0  21.00  99.0
+RC         1910.0  14.399476   9.795077  0.0   9.0  14.0  21.00  99.0
+RE           10.0   5.300000   6.717308  0.0   1.0   2.0   7.25  21.0
+RG         4458.0  13.228354   9.754394  0.0   5.0  12.0  21.00  99.0
+SC          208.0   6.865385  13.972062  0.0   1.0   1.0   2.25  80.0
+TA           18.0  10.000000   9.887604  0.0   1.0  10.0  20.25  28.0
+TO          902.0  15.125277   8.560216  0.0   9.0  18.0  21.00  60.0
+TR           41.0   3.804878   6.396169  0.0   1.0   1.0   5.00  30.0
+UN            5.0   9.200000   7.049823  1.0   6.0   8.0  11.00  20.0
 
 STEP -- fill_missing_bike_color
 
 STEP -- group_by_most_frequent
-  Bike_Type Bike_Colour
-0        BM      WHI   
-1        EL      BLK   
-2        FO      BLU   
-3        MT      BLK   
-4        OT      BLK   
-5        RC      BLK   
-6        RG      BLK   
-7        SC      BLU   
-8        TO      WHI   
+   Bike_Type Bike_Colour
+0         BM      BLK   
+1         EL      BLK   
+2         FO      BLK   
+3         MT      BLK   
+4         OT      BLK   
+5         RC      BLK   
+6         RE      ONG   
+7         RG      BLK   
+8         SC      BLK   
+9         TA      BLU   
+10        TO      BLK   
+11        TR      BLU   
+12        UN      RED   
 
 STEP -- fill_missing_bike_color
-Top 7/40 [Bike_Colour] value that contributes 80.0% RECOVERED data
-BLK       80
-WHI       27
-BLU       25
-RED       18
-GRY       15
-SIL       11
-GRN        8
+Top 8/207 [Bike_Colour] value that contributes 80.0% STOLEN data
+BLK       6283
+BLU       1600
+GRY       1446
+WHI       1404
+RED       1245
+SIL        828
+GRN        454
+ONG        323
 Name: Bike_Colour, dtype: int64
 
 STEP -- fill_missing_bike_cost
 Bike_Type
-BM     264.5
-EL    1850.0
+BM     400.0
+EL    1500.0
 FO     400.0
-MT     600.0
-OT     697.5
-RC    1500.0
-RG     700.0
-SC    2500.0
-TO    1031.0
+MT     500.0
+OT     600.0
+RC    1000.0
+RE     400.0
+RG     550.0
+SC    1550.0
+TA    1000.0
+TO     750.0
+TR     500.0
+UN     800.0
 Name: Cost_of_Bike, dtype: float64
 ****
 STEP -- cal_corr_cost_speed***
-RC 0.23393903468367402
-OT 0.05942983409451816
-MT -0.029825711057699284
-RG 0.0831887749889638
-EL 0.10940518549422373
-BM -0.17517732539367756
-SC 0.14273682935123044
-FO nan
-TO 0.21151353970263237
+OT 0.043825056762902215
+EL 0.0035931528280615647
+MT 0.08273170063412921
+RG 0.08395215363432375
+RC 0.022172018911821013
+TO 0.1223987760004584
+TR 0.13802711175903024
+SC -0.06345299156698678
+BM 0.18515720245486322
+FO 0.2957177961924646
+TA 0.06272550040667549
+UN 0.3612892130653928
+RE -0.2029309706200214
 
 STEP -- check_missing
               missing_value  percentage
-Bike_Make                 0    0.000000
-Bike_Model               76   32.900433
-Bike_Type                 0    0.000000
-Bike_Speed                0    0.000000
-Bike_Colour               0    0.000000
-Cost_of_Bike              0    0.000000
+Bike_Make                 0     0.00000
+Bike_Model             6552    37.77022
+Bike_Type                 0     0.00000
+Bike_Speed                0     0.00000
+Bike_Colour               0     0.00000
+Cost_of_Bike              0     0.00000
 
-analysis_when what -- bike
+Analysis when -- time
 
 STEP -- check_missing
                   missing_value  percentage
@@ -197,7 +209,86 @@ Occurrence_Time               0         0.0
 
 STEP -- check_unique
                   unique_value  percentage
-Occurrence_Year              5    2.164502
-Occurrence_Month            12    5.194805
-Occurrence_Day              31   13.419913
-Occurrence_Time            119   51.515152
+Occurrence_Year              5    0.028823
+Occurrence_Month            12    0.069176
+Occurrence_Day              31    0.178705
+Occurrence_Time            766    4.415749
+
+Analysis where -- location
+
+STEP -- check_missing
+               missing_value  percentage
+Division                   0         0.0
+Location_Type              0         0.0
+Premise_Type               0         0.0
+Hood_ID                    0         0.0
+Lat                        0         0.0
+Long                       0         0.0
+
+STEP -- check_unique
+               unique_value  percentage
+Division                 17    0.098000
+Location_Type            41    0.236352
+Premise_Type              5    0.028823
+Hood_ID                 140    0.807056
+Lat                    4404   25.387675
+Long                   4430   25.537557
+Top 7/17 [Division] value that contributes 80.0% STOLEN data
+52    3238
+14    3014
+51    2888
+53    1358
+55    1320
+11    1241
+32     788
+Name: Division, dtype: int64
+Top 5/41 [Location_Type] value that contributes 80.0% STOLEN data
+Streets, Roads, Highways (Bicycle Path, Private Road)                     3747
+Apartment (Rooming House, Condo)                                          3395
+Single Home, House (Attach Garage, Cottage, Mobile)                       2827
+Parking Lots (Apt., Commercial Or Non-Commercial)                         1658
+Other Commercial / Corporate Places (For Profit, Warehouse, Corp. Bldg    1626
+Name: Location_Type, dtype: int64
+Top 41/140 [Hood_ID] value that contributes 80.0% STOLEN data
+77     1815
+75     1314
+76     1288
+95      744
+79      591
+78      576
+73      535
+82      526
+93      513
+70      484
+98      402
+71      340
+74      326
+81      263
+86      258
+17      254
+80      241
+62      224
+88      218
+84      217
+63      209
+51      207
+72      190
+104     179
+87      151
+85      146
+27      132
+90      131
+83      123
+68      118
+67      115
+56      111
+94      110
+99      110
+66      108
+65      106
+102     103
+106     103
+14       94
+89       85
+96       81
+Name: Hood_ID, dtype: int64
