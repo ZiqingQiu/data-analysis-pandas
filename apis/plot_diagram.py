@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 from mpl_toolkits.basemap import Basemap
-from apis.utils import save_print
+from apis.utils import save_print, latlong_to_xy
 from config import histogram_percentile, current_df_name
 import pandas as pd
 import numpy as np
@@ -74,12 +74,10 @@ def plot_scatter(df, x_col, y_col, title):
 
 def plot_toronto_scatter(df, x_col, y_col, title):
     fig, ax = plt.subplots()
-    # x, y = utm.from_latlon(df.index.get_level_values(0), df.index.get_level_values(1))
-    x, y = df.index.get_level_values(0), df.index.get_level_values(1)
-
+    x, y = df.index.get_level_values(1), df.index.get_level_values(0)
     ax.scatter(x, y,
                s=[min(0.05 * 2 ** n, 16) for n in df.values])
     ax.set_xlabel(x_col)
     ax.set_ylabel(y_col)
-    ax.set_title(title + '_scatter' + current_df_name)
+    ax.set_title(title + '_scatter_' + current_df_name)
     fig.savefig('output/' + title + 'scatter' + '_' + current_df_name + '.png')
