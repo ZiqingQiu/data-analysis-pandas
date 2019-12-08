@@ -4,15 +4,11 @@ import shutil
 from os.path import join
 import pandas as pd
 from sklearn import preprocessing
-
 from config import current_df_name
-import pyproj
 import numpy as np
+from sklearn.utils import resample
 
 project_root = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
-
-
-# threshold when to stop including top n features for histogram
 
 
 def save_print(cmd):
@@ -120,3 +116,20 @@ def convert_weekday(df):
     df['Week_days'] = pd.to_datetime(df['Week_days'])
     df['Week_days'] = df['Week_days'].dt.weekday_name
 
+
+# get dummies
+def dynamic_get_dummies(df_feature):
+    # get dummies
+    categories_cols = []
+    for col, col_type in df_feature.dtypes.iteritems():
+        if col_type == 'O':
+            categories_cols.append(col)
+    return pd.get_dummies(df_feature, columns=categories_cols, dummy_na=False)
+
+
+# over sample the minority
+def over_sample(df_minority, df_majority):
+    return resample(df_minority,
+                    replace=True,  # sample with replacement
+                    n_samples=len(df_majority),  # match number in majority class
+                    random_state=27)  # reproducible results

@@ -1,7 +1,7 @@
 from apis.plot_diagram import plot_bar_value_counts
 from apis.utils import keep_and_replace_value, save_print, map_int_to_string, convert_weekday
 from config import bike_color_keep, month_to_season_enable, spring_months, summer_months, \
-    fall_months, winter_months
+    fall_months, winter_months, division_keep
 
 
 def pre_process(df):
@@ -30,5 +30,10 @@ def pre_process(df):
         # month_theft = df['Occurrence_Month'].value_counts()
         # plot_bar_value_counts(month_theft, 'Season_Status')
 
-    save_print("dbg")
+    # where -- location
+    # [Division] Keep top 5 value and replace others
+    keep_and_replace_value(df, 'Division', division_keep, 'OTHER')
+    exclude_cols_where = ['Location_Type', 'Premise_Type', 'Hood_ID', 'Lat', 'Long']
+    df.drop(exclude_cols_where, axis=1, inplace=True)
+
 
