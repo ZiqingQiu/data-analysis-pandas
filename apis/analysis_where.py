@@ -27,5 +27,5 @@ def analysis_where(df):
 
     # [Lat/Long]
     grouped = df.groupby(['Lat', 'Long'])['ObjectId'].count()
-    plot_toronto_scatter(grouped, 'Lat', 'Long', 'Lat_Long')
+    plot_toronto_scatter(grouped, 'Long', 'Lat', 'Lat_Long')
 

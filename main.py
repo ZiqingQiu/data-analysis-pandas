@@ -3,6 +3,7 @@ from apis.analysis_where import analysis_where
 from apis.explore_data import data_explore
 from apis.analysis_what import analysis_what
 from apis.utils import get_configure_df
+from models.pre_process import pre_process
 
 
 def main():
@@ -13,12 +14,13 @@ def main():
 
     # what -- bike
     analysis_what(df)
-
     # when -- time
     analysis_when(df)
-
     # where -- location
     analysis_where(df)
+
+    # pre process
+    pre_process(df)
 
 
 if __name__ == '__main__':

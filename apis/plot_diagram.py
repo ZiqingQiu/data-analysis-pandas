@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 from mpl_toolkits.basemap import Basemap
-from apis.utils import save_print, latlong_to_xy
+from apis.utils import save_print
 from config import histogram_percentile, current_df_name
 import pandas as pd
 import numpy as np

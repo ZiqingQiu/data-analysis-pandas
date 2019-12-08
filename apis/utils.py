@@ -100,4 +100,14 @@ def group_by_most_frequent(df, grp_by_cols, count_col):
     return tmp_df
 
 
+# keep is in keep list, if not replace it
+def keep_and_replace_value(df, col, keep_list, replace_value):
+    save_print("\nSTEP -- keep_and_replace_value " + col)
+    df.loc[~df[col].isin(keep_list), col] = replace_value
+
+
+# map int to string
+def map_int_to_string(df, col, int_list, str_value):
+    save_print("\nSTEP -- map_int_to_string " + col)
+    df.loc[df[col].isin(int_list), col] = str_value
 
