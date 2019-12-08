@@ -4,6 +4,7 @@ import shutil
 from os.path import join
 import pandas as pd
 from sklearn import preprocessing
+
 from config import current_df_name
 import pyproj
 import numpy as np
@@ -110,4 +111,12 @@ def keep_and_replace_value(df, col, keep_list, replace_value):
 def map_int_to_string(df, col, int_list, str_value):
     save_print("\nSTEP -- map_int_to_string " + col)
     df.loc[df[col].isin(int_list), col] = str_value
+
+
+# convert year month day to weekday
+def convert_weekday(df):
+    df['Week_days'] = df.apply(lambda row: str(row.Occurrence_Year) + '-' + str(row.Occurrence_Month) + '-' +
+                                           str(row.Occurrence_Day), axis=1)
+    df['Week_days'] = pd.to_datetime(df['Week_days'])
+    df['Week_days'] = df['Week_days'].dt.weekday_name
 
