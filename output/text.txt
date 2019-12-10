@@ -143,7 +143,7 @@ STEP -- group_by_most_frequent
 9         TA      BLU   
 10        TO      BLK   
 11        TR      BLU   
-12        UN      RED   
+12        UN      GRY   
 
 STEP -- fill_missing_bike_color
 Top 8/212 [Bike_Colour] value that contributes 80.0% WHOLE data
@@ -154,7 +154,7 @@ WHI       1426
 RED       1263
 SIL        839
 GRN        462
-PLE        325
+ONG        325
 Name: Bike_Colour, dtype: int64
 
 STEP -- fill_missing_bike_cost
@@ -281,8 +281,8 @@ Top 41/140 [Hood_ID] value that contributes 80.0% WHOLE data
 83      124
 68      118
 67      115
-94      112
 56      112
+94      112
 99      111
 66      110
 65      109
@@ -308,7 +308,6 @@ After over sample:
 1    12140
 0    12140
 Name: Status, dtype: int64
-Decision Tree Accuracy:0.8189230185817217
-Decision Tree Recall score: 0.8240829652391012
-Decision Tree F1 score: 0.8891356474378627
+predict accuracy: 0.6039059537353053
+predict_proba accuracy: 0.6039059537353053
 dbg

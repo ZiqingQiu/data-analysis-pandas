@@ -1,6 +1,6 @@
 histogram_percentile = 0.8
-status_stolen = 1
-status_recover = 0
+status_stolen = 0
+status_recover = 1
 # STOLEN; RECOVERED; WHOLE
 current_df_name = "WHOLE"
 
