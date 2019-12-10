@@ -3,10 +3,12 @@ import os
 import shutil
 from os.path import join
 import pandas as pd
-from sklearn import preprocessing
-from config import current_df_name
+from sklearn import preprocessing, metrics
+from sklearn.metrics import confusion_matrix, recall_score, f1_score
+from config import current_df_name, over_sample_enable, status_recover, status_stolen
 import numpy as np
 from sklearn.utils import resample
+
 
 project_root = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 
@@ -127,9 +129,29 @@ def dynamic_get_dummies(df_feature):
     return pd.get_dummies(df_feature, columns=categories_cols, dummy_na=False)
 
 
-# over sample the minority
-def over_sample(df_minority, df_majority):
+# over sample by simply duplicate the minority data set
+def over_sample_duplicate(df_minority, df_majority):
     return resample(df_minority,
                     replace=True,  # sample with replacement
                     n_samples=len(df_majority),  # match number in majority class
                     random_state=27)  # reproducible results
+
+
+def over_sample(train_x, train_y):
+    if over_sample_enable:
+        df_train = pd.concat([train_x, train_y], axis=1)
+        df_stolen = df_train[df_train.Status == status_stolen]
+        df_recover = df_train[df_train.Status == status_recover]
+        df_recover_up_sampled = over_sample_duplicate(df_recover, df_stolen)
+        df_train_up_sampled = pd.concat([df_stolen, df_recover_up_sampled])
+        save_print("After over sample:\n" + str(df_train_up_sampled['Status'].value_counts()))
+        train_y = df_train_up_sampled.Status
+        train_x = df_train_up_sampled.drop('Status', axis=1)
+    return train_x, train_y
+
+
+def get_accuracy(msg, test_y, test_y_predict, labels):
+    print(msg + "Confusion matrix \n", confusion_matrix(test_y, test_y_predict, labels))
+    save_print(msg + " accuracy: " + str(metrics.accuracy_score(test_y, test_y_predict)))
+    save_print(msg + " recall score: " + str(recall_score(test_y, test_y_predict)))
+    save_print(msg + " f1 score: " + str(f1_score(test_y, test_y_predict, average='weighted')))

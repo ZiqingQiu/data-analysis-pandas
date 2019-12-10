@@ -29,11 +29,11 @@ def main():
     label_col = ['Status']
     df_label = df.Status
     df.drop(label_col, axis=1, inplace=True)
-    # build_decision_tree(df, df_label)
+    build_decision_tree(df, df_label)
 
     # logistic regression
-    build_logistic_regression(df, df_label)
-    save_print("dbg")
+    # build_logistic_regression(df, df_label)
+    # save_print("dbg")
 
 
 if __name__ == '__main__':

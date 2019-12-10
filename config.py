@@ -17,4 +17,5 @@ winter_months = [1, 2, 12]
 division_keep = ['52', '14', '51', '53', '55', 11]
 
 over_sample_enable = True
+lg_threshold = 0.5
 

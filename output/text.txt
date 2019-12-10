@@ -281,8 +281,8 @@ Top 41/140 [Hood_ID] value that contributes 80.0% WHOLE data
 83      124
 68      118
 67      115
-56      112
 94      112
+56      112
 99      111
 66      110
 65      109
@@ -308,6 +308,6 @@ After over sample:
 1    12140
 0    12140
 Name: Status, dtype: int64
-predict accuracy: 0.6039059537353053
-predict_proba accuracy: 0.6039059537353053
-dbg
+decision tree accuracy: 0.8189230185817217
+decision tree recall score: 0.417910447761194
+decision tree f1 score: 0.8891356474378627
