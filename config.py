@@ -17,5 +17,7 @@ winter_months = [1, 2, 12]
 division_keep = ['52', '14', '51', '53', '55', 11]
 
 over_sample_enable = True
+# DUPLICATE; SMOKE
+over_sample_algorithm = "SMOTE"
 lg_threshold = 0.5
 

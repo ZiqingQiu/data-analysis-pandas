@@ -25,14 +25,15 @@ def main():
     # pre process
     pre_process(df)
 
-    # decision_tree
     label_col = ['Status']
     df_label = df.Status
     df.drop(label_col, axis=1, inplace=True)
-    build_decision_tree(df, df_label)
+
+    # decision_tree
+    # build_decision_tree(df, df_label)
 
     # logistic regression
-    # build_logistic_regression(df, df_label)
+    build_logistic_regression(df, df_label)
     # save_print("dbg")
 
 
