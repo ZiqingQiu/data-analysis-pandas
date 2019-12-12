@@ -146,12 +146,13 @@ def over_sample(train_x, train_y):
             df_recover = df_train[df_train.Status == status_recover]
             df_recover_up_sampled = over_sample_duplicate(df_recover, df_stolen)
             df_train_up_sampled = pd.concat([df_stolen, df_recover_up_sampled])
-            save_print("After over sample:\n" + str(df_train_up_sampled['Status'].value_counts()))
+            save_print("After over sample[DUPLICATE]:\n" + str(df_train_up_sampled['Status'].value_counts()))
             train_y = df_train_up_sampled.Status
             train_x = df_train_up_sampled.drop('Status', axis=1)
         if over_sample_algorithm == 'SMOTE':
             sm = SMOTE(random_state=27)
             train_x, train_y = sm.fit_sample(train_x, train_y)
+            save_print("After over sample[SMOTE]:\n" + str(train_y.value_counts()))
     return train_x, train_y
 
 

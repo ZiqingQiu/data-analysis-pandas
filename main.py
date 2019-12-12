@@ -8,6 +8,8 @@ from models.logistic_regression import build_logistic_regression
 from models.pre_process import pre_process
 import pandas as pd
 
+from models.random_forest import build_random_forest
+
 
 def main():
     # explore data
@@ -33,8 +35,10 @@ def main():
     # build_decision_tree(df, df_label)
 
     # logistic regression
-    build_logistic_regression(df, df_label)
-    # save_print("dbg")
+    # build_logistic_regression(df, df_label)
+
+    # random forest
+    build_random_forest(df, df_label)
 
 
 if __name__ == '__main__':

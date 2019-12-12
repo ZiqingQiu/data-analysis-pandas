@@ -281,8 +281,8 @@ Top 41/140 [Hood_ID] value that contributes 80.0% WHOLE data
 83      124
 68      118
 67      115
-56      112
 94      112
+56      112
 99      111
 66      110
 65      109
@@ -304,6 +304,6 @@ STEP -- map_int_to_string Occurrence_Month
 STEP -- map_int_to_string Occurrence_Month
 
 STEP -- keep_and_replace_value Division
-logistic regression predict_probs accuracy: 0.981418278346606
-logistic regression predict_probs recall score: 0.04477611940298507
-logistic regression predict_probs f1 score: 0.9787649099896901
+random forest accuracy: 0.9865377322715206
+random forest recall score: 0.0
+random forest f1 score: 0.9806055114895119
