@@ -102,8 +102,8 @@ CCM                 259
 NORCO               243
 SUPERCYCLE          196
 EMMO                181
-UNKNOWN             176
 FJ                  176
+UNKNOWN             176
 Name: Bike_Make, dtype: int64
 Top 3/13 [Bike_Type] value that contributes 80.0% WHOLE data
 MT    5642
@@ -154,7 +154,7 @@ WHI       1426
 RED       1263
 SIL        839
 GRN        462
-PLE        325
+ONG        325
 Name: Bike_Colour, dtype: int64
 
 STEP -- fill_missing_bike_cost
@@ -281,8 +281,8 @@ Top 41/140 [Hood_ID] value that contributes 80.0% WHOLE data
 83      124
 68      118
 67      115
-94      112
 56      112
+94      112
 99      111
 66      110
 65      109
@@ -304,6 +304,7 @@ STEP -- map_int_to_string Occurrence_Month
 STEP -- map_int_to_string Occurrence_Month
 
 STEP -- keep_and_replace_value Division
-random forest accuracy: 0.9865377322715206
-random forest recall score: 0.0
-random forest f1 score: 0.9806055114895119
+After over sample[SMOTE]:
+1    12140
+0    12140
+Name: Status, dtype: int64

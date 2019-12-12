@@ -7,7 +7,27 @@ import numpy as np
 import utm
 
 
-def plot_history_info(df, col):
+def decide_color():
+    if current_df_name == "RECOVERED":
+        color = 'g'
+    elif current_df_name == "STOLEN":
+        color = 'r'
+    elif current_df_name == "WHOLE":
+        color = 'b'
+    return color
+
+
+def decide_size():
+    if current_df_name == "RECOVERED":
+        size = 0.5
+    elif current_df_name == "STOLEN":
+        size = 0.05
+    elif current_df_name == "WHOLE":
+        size = 0.05
+    return size
+
+
+def plot_top_n_info(df, col):
     # this method will print top n index at console
     # also plot png for histogram on hard drive
     threshold = len(df) * histogram_percentile
@@ -32,7 +52,7 @@ def plot_history_info(df, col):
     fig.set_size_inches(15, 8)
 
     ax.barh(df[col].value_counts()[:n].index.tolist(),
-            df[col].value_counts()[:n].values.tolist(), align='center')
+            df[col].value_counts()[:n].values.tolist(), align='center', color=decide_color())
     ax.set_ylabel(col, labelpad=10, weight='bold', size=12)
     ax.set_xlabel('value count', labelpad=3, weight='bold', size=12)
     ax.set_title(console_str)
@@ -40,7 +60,7 @@ def plot_history_info(df, col):
     ax.invert_yaxis()
     for p in ax.patches:
         ax.annotate(str(p.get_width()), (p.get_width(), p.get_y() + p.get_height() * 0.75))
-    fig.savefig('output/' + col + '_histogram_' + current_df_name + '.png')
+    fig.savefig('output/' + col + '_top_n_' + current_df_name + '.png')
     return top_cols
 
 
@@ -54,7 +74,7 @@ def plot_box(df, col):
 
 def plot_bar_value_counts(s, title, x_tick=None):
     fig, ax = plt.subplots()
-    ax.bar(s.index.tolist(), s.values.tolist(), align='center')
+    ax.bar(s.index.tolist(), s.values.tolist(), align='center', color=decide_color())
     ax.set_title(title + '_' + current_df_name)
     # ax.set_xlabel(x_col)
     # ax.set_ylabel(y_col)
@@ -65,7 +85,7 @@ def plot_bar_value_counts(s, title, x_tick=None):
 
 def plot_scatter(df, x_col, y_col, title):
     fig, ax = plt.subplots()
-    ax.scatter(df[x_col], df[y_col], s=0.2)
+    ax.scatter(df[x_col], df[y_col], s=0.2, color=decide_color())
     ax.set_title(title + '_' + current_df_name)
     ax.set_xlabel(x_col)
     ax.set_ylabel(y_col)
@@ -75,9 +95,29 @@ def plot_scatter(df, x_col, y_col, title):
 def plot_toronto_scatter(df, x_col, y_col, title):
     fig, ax = plt.subplots()
     x, y = df.index.get_level_values(1), df.index.get_level_values(0)
+    size = decide_size()
     ax.scatter(x, y,
-               s=[min(0.05 * 2 ** n, 16) for n in df.values])
+               s=[min(size * 2 ** n, 16) for n in df.values],
+               c=decide_color())
     ax.set_xlabel(x_col)
     ax.set_ylabel(y_col)
     ax.set_title(title + '_scatter_' + current_df_name)
     fig.savefig('output/' + title + 'scatter' + '_' + current_df_name + '.png')
+
+
+def plot_histogram(df, x_col, bins=None, iscilp=False):
+    fig, ax = plt.subplots()
+    tmp = df[x_col].astype(int)
+    if bins is None:
+        bins = range(min(tmp), max(tmp) + 1, 1)
+    if iscilp:
+        ax.hist(np.clip(df[x_col], bins[0], bins[-1]), bins=bins, density=True,
+                facecolor=decide_color(), alpha=0.75)
+    else:
+        ax.hist(df[x_col], bins=bins, density=True,
+                facecolor=decide_color(), alpha=0.75)
+    ax.set_title(x_col + '_histogram_' + current_df_name)
+    ax.set_xlabel(x_col)
+    ax.set_ylabel("Probability")
+    fig.savefig('output/' + x_col + '_histogram_' + current_df_name + '.png')
+

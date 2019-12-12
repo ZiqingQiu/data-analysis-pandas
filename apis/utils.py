@@ -4,12 +4,13 @@ import shutil
 from os.path import join
 import pandas as pd
 from sklearn import preprocessing, metrics
-from sklearn.metrics import confusion_matrix, recall_score, f1_score
-from config import current_df_name, over_sample_enable, status_recover, status_stolen, over_sample_algorithm
+from sklearn.metrics import confusion_matrix, classification_report
+from config import current_df_name, over_sample_enable, status_recover, status_stolen, over_sample_algorithm, \
+    max_feature_try_numbers
 import numpy as np
 from sklearn.utils import resample
 from imblearn.over_sampling import SMOTE
-
+from sklearn.feature_selection import RFE
 
 project_root = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 
@@ -158,6 +159,18 @@ def over_sample(train_x, train_y):
 
 def get_accuracy(msg, test_y, test_y_predict, labels):
     print(msg + " confusion matrix \n", confusion_matrix(test_y, test_y_predict, labels))
-    save_print(msg + " accuracy: " + str(metrics.accuracy_score(test_y, test_y_predict)))
-    save_print(msg + " recall score: " + str(recall_score(test_y, test_y_predict)))
-    save_print(msg + " f1 score: " + str(f1_score(test_y, test_y_predict, average='weighted')))
+    save_print("classification_report is: ")
+    save_print(classification_report(test_y, test_y_predict, labels))
+    # save_print(msg + " accuracy: " + str(metrics.accuracy_score(test_y, test_y_predict)))
+    # save_print(msg + " recall score: " + str(recall_score(test_y, test_y_predict)))
+    # save_print(msg + " f1 score: " + str(f1_score(test_y, test_y_predict, average='weighted')))
+
+
+def get_feature_importance(model, model_name, df_feature, df_label, top_feature_numbers):
+    rfe = RFE(model, top_feature_numbers)
+    x_rfe = rfe.fit_transform(df_feature, df_label)
+    model.fit(x_rfe, df_label)
+    cols = list(df_feature.columns)
+    temp = pd.Series(rfe.support_, index=cols)
+    selected_features_rfe = temp[temp == True].index
+    save_print(model_name + " selected columns are: " + selected_features_rfe)

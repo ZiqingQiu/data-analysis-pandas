@@ -27,8 +27,8 @@ def pre_process(df):
         map_int_to_string(df, 'Occurrence_Month', summer_months, 'Summer')
         map_int_to_string(df, 'Occurrence_Month', fall_months, 'Fall')
         map_int_to_string(df, 'Occurrence_Month', winter_months, 'Winter')
-        # month_theft = df['Occurrence_Month'].value_counts()
-        # plot_bar_value_counts(month_theft, 'Season_Status')
+        month_theft = df['Occurrence_Month'].value_counts()
+        plot_bar_value_counts(month_theft, 'Season_Status')
 
     # where -- location
     # [Division] Keep top 5 value and replace others
