@@ -34,10 +34,10 @@ def main():
     df.drop(label_col, axis=1, inplace=True)
 
     # logistic regression
-    build_logistic_regression(df, df_label)
+    # build_logistic_regression(df, df_label)
 
     # decision_tree
-    # build_decision_tree(df, df_label)
+    build_decision_tree(df, df_label)
 
     # advanced trees
     # random forest

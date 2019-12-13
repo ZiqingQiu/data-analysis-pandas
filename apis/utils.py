@@ -164,7 +164,7 @@ def get_accuracy(msg, test_y, test_y_predict, labels):
     save_print(classification_report(test_y, test_y_predict, labels))
     class_1_precision = cm[1][1] / (cm[1][1] + cm[0][1])
     class_1_recall = cm[1][1] / (cm[1][1] + cm[1][0])
-    save_print("class_1_precision  class_1_recall is: " + str(class_1_precision) + '   ' + str(class_1_recall))
+    # save_print("class_1_precision  class_1_recall is: " + str(class_1_precision) + '   ' + str(class_1_recall))
     return class_1_precision, class_1_recall
 
 

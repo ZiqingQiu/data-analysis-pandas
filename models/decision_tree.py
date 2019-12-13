@@ -1,26 +1,70 @@
-from sklearn.metrics import confusion_matrix, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn import metrics
+
+from apis.plot_diagram import plot_pre_recall
 from apis.utils import save_print, dynamic_get_dummies, over_sample, get_accuracy
+import numpy as np
+from sklearn.feature_selection import RFE
+from config import max_feature_try_numbers, run_mode
+import pandas as pd
 
 
-def build_decision_tree(df_feature, df_label):
+best_nof_feature = 2
+
+
+def run_rfe(df_feature, df_label):
     df_ohe = dynamic_get_dummies(df_feature)
     train_x, test_x, train_y, test_y = train_test_split(df_ohe, df_label, test_size=0.3, random_state=99)
     # dbg_recover = pd.concat([test_x, test_y], axis=1)
     # over sample
     train_x, train_y = over_sample(train_x, train_y)
-    dc_tree = DecisionTreeClassifier(criterion='entropy', max_depth=10, min_samples_split=20, random_state=99)
-    dc_tree.fit(train_x, train_y)
-    test_y_predict = dc_tree.predict(test_x)
+
+    # build model
+    nof_list = np.arange(1, (max_feature_try_numbers + 1))
+    class_1_precision_list = []
+    class_1_recall_list = []
+    for n in range(len(nof_list)):
+        save_print("********Current nof features are: " + str(nof_list[n]))
+        dc_tree = DecisionTreeClassifier(criterion='entropy', min_samples_split=20, random_state=99)
+        rfe = RFE(dc_tree, nof_list[n])
+        rfe_train_x = rfe.fit_transform(train_x, train_y)
+        rfe_test_x = rfe.transform(test_x)
+        dc_tree.fit(rfe_train_x, train_y)
+        labels = df_label.unique()
+        # predict
+        test_y_predict = dc_tree.predict(rfe_test_x)
+        class_1_precision, class_1_recall = get_accuracy("decision tree", test_y, test_y_predict, labels)
+        class_1_precision_list.append(class_1_precision)
+        class_1_recall_list.append(class_1_recall)
+    plot_pre_recall(nof_list, class_1_precision_list, class_1_recall_list, 'decision tree')
+
+
+def run_once(df_feature, df_label):
+    df_ohe = dynamic_get_dummies(df_feature)
+    train_x, test_x, train_y, test_y = train_test_split(df_ohe, df_label, test_size=0.3, random_state=99)
+    # dbg_recover = pd.concat([test_x, test_y], axis=1)
+    # over sample
+    train_x, train_y = over_sample(train_x, train_y)
+    # build model
+    dc_tree = DecisionTreeClassifier(criterion='entropy', min_samples_split=20, random_state=99)
+    rfe = RFE(dc_tree, best_nof_feature)
+    rfe_train_x = rfe.fit_transform(train_x, train_y)
+    rfe_test_x = rfe.transform(test_x)
+    dc_tree.fit(rfe_train_x, train_y)
     labels = df_label.unique()
+    # predict
+    test_y_predict = dc_tree.predict(rfe_test_x)
     get_accuracy("decision tree", test_y, test_y_predict, labels)
-    # print("feature importance " + str(dt1_james.feature_importances_))
-    #
-    # rfe = RFE(dt1_james, 5)
-    # cols = list(train_x.columns)
-    # print(cols)
-    # importances = list(zip(dt1_james.feature_importances_, cols))
-    # importances.sort(reverse=True)
-    # pd.DataFrame(importances, index=[x for (_, x) in importances]).plot(kind='bar')
+    # print features
+    cols = list(df_ohe.columns)
+    temp = pd.Series(rfe.support_, index=cols)
+    selected_features_rfe = temp[temp == True].index
+    save_print("Top " + str(best_nof_feature) + " features are: ")
+    save_print(selected_features_rfe)
+
+
+def build_decision_tree(df_feature, df_label):
+    if run_mode == "RFE":
+        run_rfe(df_feature, df_label)
+    else:
+        run_once(df_feature, df_label)

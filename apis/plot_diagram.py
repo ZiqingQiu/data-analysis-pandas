@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 from mpl_toolkits.basemap import Basemap
 from apis.utils import save_print
-from config import histogram_percentile, current_df_name
+from config import histogram_percentile, current_df_name, over_sample_enable, over_sample_algorithm
 import pandas as pd
 import numpy as np
 import utm
@@ -125,3 +125,15 @@ def plot_histogram(df, x_col, bins=None, iscilp=False):
     ax.set_ylabel("Probability")
     fig.savefig('output/' + x_col + '_histogram_' + current_df_name + '.png')
 
+
+def plot_pre_recall(x, pre_list, recall_list, msg):
+    fig, ax = plt.subplots()
+    ax.plot(x, pre_list, '-gs', label="precision")
+    ax.plot(x, recall_list, '--b^', label="recall")
+    ax.set_title(msg + '_precise_recall_' + current_df_name)
+    ax.legend()
+    ax.set_xlabel('RFE feature number')
+    if over_sample_enable:
+        fig.savefig('output/' + msg + '_precise_recall_' + over_sample_algorithm + '_' + current_df_name + '.png')
+    else:
+        fig.savefig('output/' + msg + '_precise_recall_' + current_df_name + '.png')

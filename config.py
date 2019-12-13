@@ -1,8 +1,6 @@
 histogram_percentile = 0.8
 status_stolen = 0
 status_recover = 1
-# STOLEN; RECOVERED; WHOLE
-current_df_name = "WHOLE"
 
 col_what = ['Bike_Make', 'Bike_Model', 'Bike_Type', 'Bike_Speed', 'Bike_Colour', 'Cost_of_Bike']
 col_when = ['Occurrence_Year', 'Occurrence_Month', 'Occurrence_Day', 'Occurrence_Time']
@@ -16,13 +14,17 @@ fall_months = [9, 10, 11]
 winter_months = [1, 2, 12]
 division_keep = ['52', '14', '51', '53', '55']
 
-over_sample_enable = True
-# DUPLICATE; SMOTE
-over_sample_algorithm = "DUPLICATE"
 lg_threshold = 0.5
-
 num_of_neighbors = 55
 knn_weights = "uniform"
 
-max_feature_try_numbers = 2
+# core config
+# STOLEN; RECOVERED; WHOLE
+current_df_name = "WHOLE"
+over_sample_enable = True
+# DUPLICATE; SMOTE
+over_sample_algorithm = "SMOTE"
+max_feature_try_numbers = 38
+# RFE; ONCE
+run_mode = "ONCE"
 
