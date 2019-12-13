@@ -4,8 +4,9 @@ from apis.plot_diagram import plot_pre_recall
 from apis.utils import dynamic_get_dummies, save_print, over_sample, get_accuracy
 import pandas as pd
 import numpy as np
-from config import lg_threshold, max_feature_try_numbers, run_mode
+from config import lg_threshold, max_feature_try_numbers, run_mode, root_folder
 from sklearn.feature_selection import RFE
+import joblib
 
 
 best_nof_feature = 16
@@ -68,6 +69,11 @@ def run_once(df_feature, df_label):
     selected_features_rfe = temp[temp == True].index
     save_print("Top " + str(best_nof_feature) + " features are: ")
     save_print(selected_features_rfe)
+    # dump model
+    joblib.dump(lg_regression, root_folder + "lg_regression.pkl")
+    save_print("lg_regression Model dumped!")
+    joblib.dump(selected_features_rfe, root_folder + "lg_regression_cols.pkl")
+    save_print("lg_regression models columns dumped!")
 
 
 def build_logistic_regression(df_feature, df_label):

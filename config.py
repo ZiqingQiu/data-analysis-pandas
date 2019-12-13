@@ -18,6 +18,8 @@ lg_threshold = 0.5
 num_of_neighbors = 55
 knn_weights = "uniform"
 
+root_folder = "D:/3. GitHubMirrorReps/pandas/serialized_models/"
+
 # core config
 # STOLEN; RECOVERED; WHOLE
 current_df_name = "WHOLE"

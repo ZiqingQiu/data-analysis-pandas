@@ -1,3 +1,4 @@
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
@@ -5,7 +6,7 @@ from apis.plot_diagram import plot_pre_recall
 from apis.utils import save_print, dynamic_get_dummies, over_sample, get_accuracy
 import numpy as np
 from sklearn.feature_selection import RFE
-from config import max_feature_try_numbers, run_mode
+from config import max_feature_try_numbers, run_mode, root_folder
 import pandas as pd
 
 
@@ -61,6 +62,11 @@ def run_once(df_feature, df_label):
     selected_features_rfe = temp[temp == True].index
     save_print("Top " + str(best_nof_feature) + " features are: ")
     save_print(selected_features_rfe)
+    # dump model
+    joblib.dump(dc_tree, root_folder + "dc_tree.pkl")
+    save_print("dc_tree Model dumped!")
+    joblib.dump(selected_features_rfe, root_folder + "dc_tree_cols.pkl")
+    save_print("dc_tree models columns dumped!")
 
 
 def build_decision_tree(df_feature, df_label):

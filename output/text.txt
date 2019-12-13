@@ -102,8 +102,8 @@ CCM                 259
 NORCO               243
 SUPERCYCLE          196
 EMMO                181
-FJ                  176
 UNKNOWN             176
+FJ                  176
 Name: Bike_Make, dtype: int64
 Top 3/13 [Bike_Type] value that contributes 80.0% WHOLE data
 MT    5642
@@ -143,7 +143,7 @@ STEP -- group_by_most_frequent
 9         TA      BLU   
 10        TO      BLK   
 11        TR      BLU   
-12        UN      RED   
+12        UN      GRY   
 
 STEP -- fill_missing_bike_color
 Top 8/212 [Bike_Colour] value that contributes 80.0% WHOLE data
@@ -327,3 +327,5 @@ weighted avg       0.98      0.79      0.87      5274
 
 Top 2 features are: 
 Index(['Bike_Speed', 'Cost_of_Bike'], dtype='object')
+dc_tree Model dumped!
+dc_tree models columns dumped!
