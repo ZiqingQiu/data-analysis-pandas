@@ -36,7 +36,7 @@ def main():
     # build_logistic_regression(df, df_label)
 
     # decision_tree
-    build_decision_tree(df, df_label)
+    # build_decision_tree(df, df_label)
 
     # advanced trees
     # random forest

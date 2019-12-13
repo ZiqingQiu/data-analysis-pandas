@@ -13,6 +13,7 @@ summer_months = [6, 7, 8]
 fall_months = [9, 10, 11]
 winter_months = [1, 2, 12]
 division_keep = ['52', '14', '51', '53', '55']
+convert_hour = True
 
 lg_threshold = 0.5
 num_of_neighbors = 55
@@ -22,7 +23,7 @@ root_folder = "D:/3. GitHubMirrorReps/pandas/serialized_models/"
 
 # core config
 # STOLEN; RECOVERED; WHOLE
-current_df_name = "WHOLE"
+current_df_name = "STOLEN"
 over_sample_enable = True
 # DUPLICATE; SMOTE
 over_sample_algorithm = "SMOTE"
