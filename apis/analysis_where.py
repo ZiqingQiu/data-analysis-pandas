@@ -20,6 +20,11 @@ def analysis_where(df):
     # [Premise_Type]
     pt_vc = df['Premise_Type'].value_counts()
     plot_bar_value_counts(pt_vc, 'Premise_Type')
+    # plot top n for Premise_Type == 'Other'
+    row_filter = df['Premise_Type'] != 'Other'
+    index_names = df[row_filter].index
+    filter_df = df.drop(index_names, axis=0)
+    plot_top_n_info(filter_df, 'Location_Type', 'Other_PType')
 
     # [Hood_ID]
     df['Hood_ID'] = df['Hood_ID'].astype(str)

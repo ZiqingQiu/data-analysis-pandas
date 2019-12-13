@@ -27,7 +27,7 @@ def decide_size():
     return size
 
 
-def plot_top_n_info(df, col):
+def plot_top_n_info(df, col, msg=None):
     # this method will print top n index at console
     # also plot png for histogram on hard drive
     threshold = len(df) * histogram_percentile
@@ -60,7 +60,11 @@ def plot_top_n_info(df, col):
     ax.invert_yaxis()
     for p in ax.patches:
         ax.annotate(str(p.get_width()), (p.get_width(), p.get_y() + p.get_height() * 0.75))
-    fig.savefig('output/' + col + '_top_n_' + current_df_name + '.png')
+    if msg is None:
+        file_name = 'output/' + col + '_top_n_' + current_df_name + '.png'
+    else:
+        file_name = 'output/' + msg + ' ' + col + '_top_n_' + current_df_name + '.png'
+    fig.savefig(file_name)
     return top_cols
 
 

@@ -34,7 +34,7 @@ def main():
     df.drop(label_col, axis=1, inplace=True)
 
     # logistic regression
-    # build_logistic_regression(df, df_label)
+    build_logistic_regression(df, df_label)
 
     # decision_tree
     # build_decision_tree(df, df_label)
@@ -45,7 +45,7 @@ def main():
     # build_gradient_boosting(df, df_label)
 
     # nearest neighbors
-    build_nearest_neighbors(df, df_label)
+    # build_nearest_neighbors(df, df_label)
 
 
 if __name__ == '__main__':

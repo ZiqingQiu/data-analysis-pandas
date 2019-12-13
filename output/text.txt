@@ -143,7 +143,7 @@ STEP -- group_by_most_frequent
 9         TA      BLU   
 10        TO      BLK   
 11        TR      BLU   
-12        UN      RED   
+12        UN      GRY   
 
 STEP -- fill_missing_bike_color
 Top 8/212 [Bike_Colour] value that contributes 80.0% WHOLE data
@@ -249,6 +249,13 @@ Single Home, House (Attach Garage, Cottage, Mobile)                       2867
 Parking Lots (Apt., Commercial Or Non-Commercial)                         1673
 Other Commercial / Corporate Places (For Profit, Warehouse, Corp. Bldg    1646
 Name: Location_Type, dtype: int64
+Top 5/28 [Location_Type] value that contributes 80.0% WHOLE data
+Private Property (Pool, Shed, Detached Garage)                           1347
+Universities / Colleges                                                   561
+Other Non Commercial / Corporate Places (Non-Profit, Gov'T, Firehall)     257
+Schools During Supervised Activity                                        225
+Ttc Subway Station                                                        208
+Name: Location_Type, dtype: int64
 Top 41/140 [Hood_ID] value that contributes 80.0% WHOLE data
 77     1835
 75     1328
@@ -281,8 +288,8 @@ Top 41/140 [Hood_ID] value that contributes 80.0% WHOLE data
 83      124
 68      118
 67      115
-56      112
 94      112
+56      112
 99      111
 66      110
 65      109
@@ -304,7 +311,8 @@ STEP -- map_int_to_string Occurrence_Month
 STEP -- map_int_to_string Occurrence_Month
 
 STEP -- keep_and_replace_value Division
-After over sample[SMOTE]:
+After over sample[DUPLICATE]:
 1    12140
 0    12140
 Name: Status, dtype: int64
+********Current nof features are: 1

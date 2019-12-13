@@ -18,11 +18,11 @@ division_keep = ['52', '14', '51', '53', '55']
 
 over_sample_enable = True
 # DUPLICATE; SMOTE
-over_sample_algorithm = "SMOTE"
+over_sample_algorithm = "DUPLICATE"
 lg_threshold = 0.5
 
 num_of_neighbors = 55
 knn_weights = "uniform"
 
-max_feature_try_numbers = 20
+max_feature_try_numbers = 2
 

@@ -158,12 +158,14 @@ def over_sample(train_x, train_y):
 
 
 def get_accuracy(msg, test_y, test_y_predict, labels):
-    print(msg + " confusion matrix \n", confusion_matrix(test_y, test_y_predict, labels))
+    cm = confusion_matrix(test_y, test_y_predict, labels)
+    print(msg + " confusion matrix \n", cm)
     save_print("classification_report is: ")
     save_print(classification_report(test_y, test_y_predict, labels))
-    # save_print(msg + " accuracy: " + str(metrics.accuracy_score(test_y, test_y_predict)))
-    # save_print(msg + " recall score: " + str(recall_score(test_y, test_y_predict)))
-    # save_print(msg + " f1 score: " + str(f1_score(test_y, test_y_predict, average='weighted')))
+    class_1_precision = cm[1][1] / (cm[1][1] + cm[0][1])
+    class_1_recall = cm[1][1] / (cm[1][1] + cm[1][0])
+    save_print("class_1_precision  class_1_recall is: " + str(class_1_precision) + '   ' + str(class_1_recall))
+    return class_1_precision, class_1_recall
 
 
 def get_feature_importance(model, model_name, df_feature, df_label, top_feature_numbers):
