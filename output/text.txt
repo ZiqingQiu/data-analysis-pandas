@@ -329,3 +329,21 @@ Top 2 features are:
 Index(['Bike_Speed', 'Cost_of_Bike'], dtype='object')
 dc_tree Model dumped!
 dc_tree models columns dumped!
+
+STEP -- keep_and_replace_value Bike_Colour
+
+STEP -- keep_and_replace_value Bike_Colour
+
+STEP -- keep_and_replace_value Bike_Colour
+
+STEP -- keep_and_replace_value Bike_Colour
+
+STEP -- map_int_to_string Occurrence_Month
+
+STEP -- map_int_to_string Occurrence_Month
+
+STEP -- map_int_to_string Occurrence_Month
+
+STEP -- map_int_to_string Occurrence_Month
+
+STEP -- keep_and_replace_value Division

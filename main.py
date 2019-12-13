@@ -9,7 +9,6 @@ from models.k_nearest_neighbors import build_nearest_neighbors
 from models.logistic_regression import build_logistic_regression
 from models.pre_process import pre_process
 import pandas as pd
-
 from models.random_forest import build_random_forest
 
 
